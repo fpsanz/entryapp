@@ -9,6 +9,7 @@ ui <- dashboardPage(
   dashboardHeader(title = "RNA-seq web utils", titleWidth = "300px"),
   dashboardSidebar(disable = FALSE),
   dashboardBody(
+      setShadow(class = "box"),
       tags$head(tags$style(HTML('
                                 .bg-limon {
                                 background-color: #295e7d;
