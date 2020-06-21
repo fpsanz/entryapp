@@ -4,7 +4,10 @@ library(shinydashboardPlus)
 library(shiny.router)
 library(shinyWidgets)
 library(shinyjs)
+library(networkD3)
+library(dplyr)
 source("global.R")
+
 ui <- dashboardPage(
   dashboardHeader(title = "Multiomics web utils", titleWidth = "300px"),
   dashboardSidebar(disable = TRUE),
@@ -172,7 +175,7 @@ ui <- dashboardPage(
       ), # fin fluidrow 
       br(),
       fluidRow(
-          column(width = 6, offset = 3,
+          column(width = 6, offset = 0,
       flipBox(
           width = 2,
           id = 1,
@@ -180,6 +183,7 @@ ui <- dashboardPage(
           header_img = "https://image.flaticon.com/icons/svg/119/119595.svg",
           front_title = "RNA-seq interactive tools",
           back_title = "About us",
+          front_btn_text = "About us", 
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
              sed do eiusmod tempor incididunt ut labore et dolore magna 
              aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
@@ -200,23 +204,72 @@ ui <- dashboardPage(
               column(
                   width = 12,
                   align = "center",
-                  tags$img(src = "dna-svg-small-13.gif", width="100px"),
-                  tags$h4("RNA-seq interactive tools 2020"), 
-                  tags$p("Authors:"),
-                  tags$p("Miriam Riquelme Pérez (corresponding author) & Fernando Pérez Sanz"),
-                  tags$p("For any suggestion or bug, please contact us: miriam.riquelmep@gmail.com")
-               
+                  HTML("<img src='dna-svg-small-13.gif', width='100px'><br>
+                  <h4>Authors:<br><br>
+    Miriam Riquelme Pérez 
+    <a href='https://www.linkedin.com/in/miriam-riquelme-perez/' target='_blank'> 
+    <img src='linkedin_little.svg'> </a> <a href='mailto:miriam.riquelmep@gmail.com'>
+    <img src='email.svg'></a><br>
+    Fernando Pérez Sanz 
+    <a href='https://www.linkedin.com/in/fernandoperez72/' target='_blank'> 
+    <img src='linkedin_little.svg'> 
+    </a> <a href='mailto:fernando.perez@ffis.es'> <img src='email.svg'></a></h4><br>
+    For any suggestion or bug, please contact us")
               )
           )
           )
-      )
+      ),
+      column(width = 6,
+             sankeyNetworkOutput("sankey"))
      ) # fin flip box
   ) # fin dashboardbody
 ) # fin dashboarpage
 
 # Plug router into Shiny server.
 server <- function(input, output) {
-    shinyjs::onclick("enrich", runjs("window.open('http://155.54.120.105/shiny/enrichapp/','_self')") ) 
+  shinyjs::onclick("enrich", runjs("window.open('http://155.54.120.105/shiny/enrichappDark/','_blank')") )
+  output$sankey <- renderSankeyNetwork({
+      links <- data.frame(
+      source=c("DEseq","DEseq","DEseq","DEseq","DEseq","DEseq",
+               "UserGeneList","UserGeneList",
+               "ExprsMatrix","ExprsMatrix","ExprsMatrix",
+               "SampleData",
+               "GeneList+Pval+logFC","GeneList+Pval+logFC","GeneList+Pval+logFC","GeneList+Pval+logFC",
+               "Exprs","ColData","logFC","Pval","logFC","Pval","Exprs","ColData",
+               "Exprs","ColData","Exprs","ColData","Exprs","ColData","logFC","Pval",
+               "EnrichObj","EnrichObj","EnrichObj","EnrichObj","EnrichObj",
+               "EnrichObj","EnrichObj","EnrichObj","Pval","logFC","EnrichObj","Pval","logFC",
+               "GeneList","Pval","logFC"), 
+      target=c("Exprs","ColData","EnrichObj","logFC","Pval","GeneList",
+               "GeneList","EnrichObj",
+               "Exprs","GeneList","EnrichObj",
+               "ColData",
+               "GeneList","Pval","logFC","EnrichObj",
+               "PCA","PCA","Volcano","Volcano","MA","MA","Boxplot/Violin","Boxplot/Violin",
+               "Heatmap","Heatmap","Cluster","Cluster","TopGene","TopGene","Karyoplot","Karyoplot",
+               "KeggBarplot","KeggChorplot","KeggDotplot","KeggHeatmap","KeggNetplot",
+               "GOBar","GODot","GOplotBar","GOplotBar","GOplotBar","GOCircle","GOCircle","GOCircle",
+               "GSEA","GSEA","GSEA"), 
+      value=rep(1,48)
+      )
+     
+    # From these flows we need to create a node data frame: it lists every entities involved in the flow
+    nodes <- data.frame(
+      name=c(as.character(links$source), 
+      as.character(links$target)) %>% unique()
+    )
+     
+    # With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
+    links$IDsource <- match(links$source, nodes$name)-1 
+    links$IDtarget <- match(links$target, nodes$name)-1
+     
+    # Make the Network
+    sankeyNetwork(Links = links, Nodes = nodes,
+                  Source = "IDsource", Target = "IDtarget",
+                  Value = "value", NodeID = "name", 
+                  sinksRight=FALSE, fontSize = 13)
+
+  })
 }
 
 # Run server in a standard way.
