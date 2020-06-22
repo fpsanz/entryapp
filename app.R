@@ -250,24 +250,24 @@ server <- function(input, output) {
                "KeggBarplot","KeggChorplot","KeggDotplot","KeggHeatmap","KeggNetplot",
                "GOBar","GODot","GOplotBar","GOplotBar","GOplotBar","GOCircle","GOCircle","GOCircle",
                "GSEA","GSEA","GSEA"), 
-      value=rep(1,48)
+      value=rep(3,48)
       )
-     
     # From these flows we need to create a node data frame: it lists every entities involved in the flow
     nodes <- data.frame(
       name=c(as.character(links$source), 
       as.character(links$target)) %>% unique()
     )
-     
     # With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
     links$IDsource <- match(links$source, nodes$name)-1 
     links$IDtarget <- match(links$target, nodes$name)-1
-     
+    links$group <- "blue"
+    my_color <- 'd3.scaleOrdinal() .domain(["blue"]) .range(["blue"])'
+    
     # Make the Network
     sankeyNetwork(Links = links, Nodes = nodes,
                   Source = "IDsource", Target = "IDtarget",
                   Value = "value", NodeID = "name", 
-                  sinksRight=FALSE, fontSize = 13)
+                  sinksRight=FALSE, fontSize = 13, margin=0)
 
   })
 }
