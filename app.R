@@ -229,28 +229,28 @@ ui <- dashboardPage(
 server <- function(input, output) {
   shinyjs::onclick("enrich", runjs("window.open('http://155.54.120.105/shiny/enrichappDark/','_blank')") )
   output$sankey <- renderSankeyNetwork({
-      links <- data.frame(
-      source=c("DEseq","DEseq","DEseq","DEseq","DEseq","DEseq",
-               "UserGeneList","UserGeneList",
-               "ExprsMatrix","ExprsMatrix","ExprsMatrix",
+ links <- data.frame(
+      source=c("DEseq","DEseq","DEseq","DEseq","DEseq",
+               "UserGeneList", "GeneList",
+               "ExprsMatrix","ExprsMatrix",
                "SampleData",
-               "GeneList+Pval+logFC","GeneList+Pval+logFC","GeneList+Pval+logFC","GeneList+Pval+logFC",
-               "Exprs","ColData","logFC","Pval","logFC","Pval","Exprs","ColData",
+               "GeneList+Pval+logFC","GeneList+Pval+logFC","GeneList+Pval+logFC",
+               "Exprs","ColData","logFC","Pval","logFC","Pval","Exprs","Exprs","ColData",
                "Exprs","ColData","Exprs","ColData","Exprs","ColData","logFC","Pval",
                "EnrichObj","EnrichObj","EnrichObj","EnrichObj","EnrichObj",
                "EnrichObj","EnrichObj","EnrichObj","Pval","logFC","EnrichObj","Pval","logFC",
-               "GeneList","Pval","logFC"), 
-      target=c("Exprs","ColData","EnrichObj","logFC","Pval","GeneList",
-               "GeneList","EnrichObj",
-               "Exprs","GeneList","EnrichObj",
+               "EnrichObj","Pval","logFC"), 
+      target=c("Exprs","ColData","logFC","Pval","GeneList",
+               "GeneList", "EnrichObj",
+               "Exprs","GeneList",
                "ColData",
-               "GeneList","Pval","logFC","EnrichObj",
-               "PCA","PCA","Volcano","Volcano","MA","MA","Boxplot/Violin","Boxplot/Violin",
+               "GeneList","Pval","logFC",
+               "PCA","PCA","Volcano","Volcano","MA","MA","MA","Boxplot/Violin","Boxplot/Violin",
                "Heatmap","Heatmap","Cluster","Cluster","TopGene","TopGene","Karyoplot","Karyoplot",
                "KeggBarplot","KeggChorplot","KeggDotplot","KeggHeatmap","KeggNetplot",
                "GOBar","GODot","GOplotBar","GOplotBar","GOplotBar","GOCircle","GOCircle","GOCircle",
                "GSEA","GSEA","GSEA"), 
-      value=rep(3,48)
+      value=rep(3,46)
       )
     # From these flows we need to create a node data frame: it lists every entities involved in the flow
     nodes <- data.frame(
@@ -267,7 +267,7 @@ server <- function(input, output) {
     sankeyNetwork(Links = links, Nodes = nodes,
                   Source = "IDsource", Target = "IDtarget",
                   Value = "value", NodeID = "name", 
-                  sinksRight=FALSE, fontSize = 13, margin=0)
+                  sinksRight=TRUE, fontSize = 13, margin=0)
 
   })
 }
