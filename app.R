@@ -228,6 +228,7 @@ ui <- dashboardPage(
 # Plug router into Shiny server.
 server <- function(input, output) {
   shinyjs::onclick("enrich", runjs("window.open('http://155.54.120.105/shiny/enrichappDark/','_blank')") )
+  shinyjs::onclick("simple", runjs("window.open('http://155.54.120.105/shiny/enrich_listable/','_blank')") )
   output$sankey <- renderSankeyNetwork({
  links <- data.frame(
       source=c("DEseq","DEseq","DEseq","DEseq","DEseq",
