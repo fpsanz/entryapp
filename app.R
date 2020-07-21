@@ -22,6 +22,7 @@ ui <- dashboardPage(
                                 }'))),
             useShinyjs(),
       fluidRow(
+        column(width =12, offset = 2,
           miBoxPlus(
               title = "Simple Enrichment",
               closable = FALSE,
@@ -72,54 +73,54 @@ ui <- dashboardPage(
                   ) #fin column
               ) # fin fluid row
           ), # fin miboxplus 1
-          miBoxPlus(
-              title = "Count importer & DE analysis",
-              closable = FALSE,
-              width = 4,
-              background = "limon",
-              height = "250px",
-              tags$p("Create a DESeq2 object starting from the counting matrix of your transcriptomics experiment. Add a file with the 
-                     samples description, insert your design and the contrast of interest that you would like to test 
-                     and get an object ready for differential expression gene analysis and enrichment exploration."),
-              tags$br(),
-              fluidRow(
-                  column(
-                      align = "center",
-                      width = 2,
-                      dropdown(
-                          style = "unite",
-                          icon = icon("info"),
-                          status = "primary",
-                          width = "600px",
-                          animate = animateOptions(
-                              enter = animations$fading_entrances$fadeInDownBig,
-                              exit = animations$fading_exits$fadeOutDownBig
-                          ),
-                          box(
-                              width = 12,
-                              status = "primary",
-                              height = "300px",
-                              title = tags$strong("Enrich app 2020"),
-                              background = "light-blue",
-                              tags$h4(
-                                  "The accepted format for the counting file is a .csv file in which 
-                                  the columns are samples and the rows are genes."
-                              )
-                          )
-                      ), # fin dropdown
-                  ), #fin column
-                  column(
-                      width = 8,
-                      align = "center",
-                      actionBttn(
-                          inputId = "import",
-                          label = "Go importer & DE",
-                          style = "jelly",
-                          color = "primary",
-                      )
-                  ) #fin column
-              ) # fin fluid row
-          ), # fin miboxplus 2
+          # miBoxPlus(
+          #     title = "Count importer & DE analysis",
+          #     closable = FALSE,
+          #     width = 4,
+          #     background = "limon",
+          #     height = "250px",
+          #     tags$p("Create a DESeq2 object starting from the counting matrix of your transcriptomics experiment. Add a file with the 
+          #            samples description, insert your design and the contrast of interest that you would like to test 
+          #            and get an object ready for differential expression gene analysis and enrichment exploration."),
+          #     tags$br(),
+          #     fluidRow(
+          #         column(
+          #             align = "center",
+          #             width = 2,
+          #             dropdown(
+          #                 style = "unite",
+          #                 icon = icon("info"),
+          #                 status = "primary",
+          #                 width = "600px",
+          #                 animate = animateOptions(
+          #                     enter = animations$fading_entrances$fadeInDownBig,
+          #                     exit = animations$fading_exits$fadeOutDownBig
+          #                 ),
+          #                 box(
+          #                     width = 12,
+          #                     status = "primary",
+          #                     height = "300px",
+          #                     title = tags$strong("Enrich app 2020"),
+          #                     background = "light-blue",
+          #                     tags$h4(
+          #                         "The accepted format for the counting file is a .csv file in which 
+          #                         the columns are samples and the rows are genes."
+          #                     )
+          #                 )
+          #             ), # fin dropdown
+          #         ), #fin column
+          #         column(
+          #             width = 8,
+          #             align = "center",
+          #             actionBttn(
+          #                 inputId = "import",
+          #                 label = "Go importer & DE",
+          #                 style = "jelly",
+          #                 color = "primary",
+          #             )
+          #         ) #fin column
+          #     ) # fin fluid row
+          # ), # fin miboxplus 2
           miBoxPlus(
               title = "DESeq enrichment",
               closable = FALSE,
@@ -171,7 +172,7 @@ ui <- dashboardPage(
                       )
                   ) #fin column
               ) # fin fluid row
-          ) # fin miboxplus 3
+          )) # fin miboxplus 3
       ), # fin fluidrow 
       br(),
       fluidRow(
