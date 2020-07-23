@@ -9,7 +9,11 @@ library(dplyr)
 source("global.R")
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Multiomics web utils", titleWidth = "300px"),
+  dashboardHeader(title = "Multiomics web utils", titleWidth = "300px",
+                  tags$li(class = "dropdown", actionButton("statButton", "Stats",
+                                                           onclick = "window.open('report_stats.html','_blank')"),
+                                  style="margin-top:8px; margin-right: 5px")
+                  ),
   dashboardSidebar(disable = TRUE),
   dashboardBody(
       setShadow(class = "box"),
