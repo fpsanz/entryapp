@@ -107,7 +107,7 @@ miBoxPlus <- function (..., title = NULL, footer = NULL, status = NULL, solidHea
 
 popupModal <- function(){
     modalDialog(
-        title = "Visit stats",
+        title = "Who is visiting us",
         size = "m",
         fluidRow(
             column(width = 12,
@@ -128,7 +128,7 @@ mapData <- function(){
     require(datasets)
     require(tidyverse)
     data("World")
-    js <- read_json("/home/fpsanz/report.json")
+    js <- read_json("report.json")
     df <- list()
     k=1
     for(i in seq(1,length(js$geolocation$data))){

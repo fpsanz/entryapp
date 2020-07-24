@@ -249,12 +249,13 @@ server <- function(input, output) {
   #########################
   output$distPlot <- renderTmap({
     tm_shape(dataWorld) + tm_polygons("count") +
+      tm_layout(legend.format = list(format="d") ) +
       tm_view(set.view = 0.5, view.legend.position = c("left","bottom") ) +
       tmap_options(basemaps = "OpenStreetMap")
   })
   #########################
   output$visits <- renderValueBox({
-    valueBox(sum(dataWorld$count, na.rm = T), "Visits", width = 1, icon = icon("eye"))
+    valueBox(sum(dataWorld$count, na.rm = T), "Visits", width = 1, icon = icon("eye"), color="orange")
   })
   
   output$sankey <- renderSankeyNetwork({
