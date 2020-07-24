@@ -254,7 +254,7 @@ server <- function(input, output) {
   })
   #########################
   output$visits <- renderValueBox({
-    valueBox(sum(dataWorld$count, na.rm = T), "Visits", width = 1, icon = icon("list"))
+    valueBox(sum(dataWorld$count, na.rm = T), "Visits", width = 1, icon = icon("eye"))
   })
   
   output$sankey <- renderSankeyNetwork({
