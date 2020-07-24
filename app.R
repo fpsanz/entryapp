@@ -11,7 +11,7 @@ library(jsonlite)
 library(datasets)
 source("global.R")
 data("World")
-
+dataWorld <- mapData()
 ui <- dashboardPage(
   dashboardHeader(title = "Multiomics web utils", titleWidth = "300px",
                   # tags$li(class = "dropdown", actionButton("statButton", "Stats",
@@ -245,13 +245,14 @@ server <- function(input, output) {
   observeEvent(input$statButton, {
     showModal(popupModal())
   })
-  dataWorld <- mapData()
+  
   #########################
   output$distPlot <- renderTmap({
     tm_shape(dataWorld) + tm_polygons("count") +
       tm_layout(legend.format = list(format="d") ) +
       tm_view(set.view = 0.5, view.legend.position = c("left","bottom") ) +
       tmap_options(basemaps = "OpenStreetMap")
+  
   })
   #########################
   output$visits <- renderValueBox({

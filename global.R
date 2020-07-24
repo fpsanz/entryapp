@@ -104,7 +104,6 @@ miBoxPlus <- function (..., title = NULL, footer = NULL, status = NULL, solidHea
         boxPlusTag)
 }
 
-
 popupModal <- function(){
     modalDialog(
         title = "Who is visiting us",
@@ -128,7 +127,7 @@ mapData <- function(){
     require(datasets)
     require(tidyverse)
     data("World")
-    js <- read_json("report.json")
+    js <- read_json("www/report.json")
     df <- list()
     k=1
     for(i in seq(1,length(js$geolocation$data))){
@@ -144,4 +143,5 @@ mapData <- function(){
     world2 <- left_join(World, df, by = c("name" = "country") )
     return(world2)
 }
+
 
