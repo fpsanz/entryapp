@@ -6,13 +6,19 @@ library(shinyWidgets)
 library(shinyjs)
 library(networkD3)
 library(dplyr)
+library(tmap)
+library(jsonlite)
+library(datasets)
 source("global.R")
+data("World")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Multiomics web utils", titleWidth = "300px",
+                  # tags$li(class = "dropdown", actionButton("statButton", "Stats",
+                  #                                          onclick = "window.open('report_stats.html','_blank')"),
+                  #                 style="margin-top:8px; margin-right: 15px")
                   tags$li(class = "dropdown", actionButton("statButton", "Stats",
-                                                           onclick = "window.open('report_stats.html','_blank')"),
-                                  style="margin-top:8px; margin-right: 5px")
+                                   style="margin-top:8px; margin-right: 15px"))
                   ),
   dashboardSidebar(disable = TRUE),
   dashboardBody(
@@ -234,6 +240,23 @@ ui <- dashboardPage(
 server <- function(input, output) {
   shinyjs::onclick("enrich", runjs("window.open('http://155.54.120.105/shiny/enrichappDark/','_blank')") )
   shinyjs::onclick("simple", runjs("window.open('http://155.54.120.105/shiny/enrich_listable/','_blank')") )
+  
+  
+  observeEvent(input$statButton, {
+    showModal(popupModal())
+  })
+  dataWorld <- mapData()
+  #########################
+  output$distPlot <- renderTmap({
+    tm_shape(dataWorld) + tm_polygons("count") +
+      tm_view(set.view = 0.5, view.legend.position = c("left","bottom") ) +
+      tmap_options(basemaps = "OpenStreetMap")
+  })
+  #########################
+  output$visits <- renderValueBox({
+    valueBox(sum(dataWorld$count, na.rm = T), "Visits", width = 1, icon = icon("list"))
+  })
+  
   output$sankey <- renderSankeyNetwork({
  links <- data.frame(
       source=c("DEseq","DEseq","DEseq","DEseq","DEseq",

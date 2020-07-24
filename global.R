@@ -103,3 +103,45 @@ miBoxPlus <- function (..., title = NULL, footer = NULL, status = NULL, solidHea
         translation_rate, ", 0);\n              }\n              "))))), 
         boxPlusTag)
 }
+
+
+popupModal <- function(){
+    modalDialog(
+        title = "Visit stats",
+        size = "m",
+        fluidRow(
+            column(width = 12,
+                tmapOutput("distPlot", width = "550px", height = "400px"),
+                )),
+            tags$br(),
+        fluidRow(
+            column(width = 12,
+                valueBoxOutput("visits"),
+                actionButton("statButton", "Details", onclick = "window.open('report_stats.html','_blank')"))
+        )
+    )
+}
+
+
+
+mapData <- function(){
+    require(datasets)
+    require(tidyverse)
+    data("World")
+    js <- read_json("/home/fpsanz/report.json")
+    df <- list()
+    k=1
+    for(i in seq(1,length(js$geolocation$data))){
+        for(j in seq(1, length(js$geolocation$data[[i]]$items))){
+            df$count[k] <- js$geolocation$data[[i]]$items[[j]]$visitors$count
+            df$country[k] <- js$geolocation$data[[i]]$items[[j]]$data
+            k=k+1
+        }
+    }
+    df <- as.data.frame.list(df)
+    df$country <- sub(" ",";", df$country)
+    df <- df %>% tidyr::separate(country, c("countryId", "country"), sep=";")
+    world2 <- left_join(World, df, by = c("name" = "country") )
+    return(world2)
+}
+
