@@ -124,10 +124,10 @@ popupModal <- function(){
 
 
 mapData <- function(){
-    require(datasets)
+    require(tmap)
     require(tidyverse)
     data("World")
-    js <- read_json("www/report.json")
+    js <- read_json("www/report_stats.json")
     df <- list()
     k=1
     for(i in seq(1,length(js$geolocation$data))){
