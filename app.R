@@ -119,9 +119,7 @@ ui <- dashboardPage(
                               title = tags$strong("EnrichApp 2020"),
                               background = "light-blue",
                               tags$h4(
-                                  "Format allowed: .csv, .xls.
-                                  Annotation gene names: .
-                                  Species integrated: Human and Mouse (Rat ?)."
+                                  "Annotation gene names: Ensembl and Gene Symbol."
                               )
                           )
                       ),# fin dropdown
@@ -193,7 +191,8 @@ ui <- dashboardPage(
               width = 4,
               background = "limon",
               height = "250px",
-              tags$p("Enter a DESeq2 object with the designs or contrasts you are interested in, indicate the 
+              tags$p("Enter a DESeq2 object with the designs or contrasts you are interested in, 
+                     or a counting matrix plus a sample table information; indicate the 
                      annotation and the specie and generate a full functional enrichment analysis, plus other extra images with many tables and plots, based mainly
                      on Kyoto Encyclopedia of Genes and Genomes (", a("Kegg", href="https://www.genome.jp/kegg/pathway.html"), 
                      ") pathways database, Gene Ontology terms resource (", a("GO", href="http://geneontology.org"), ") 
@@ -219,9 +218,9 @@ ui <- dashboardPage(
                               title = tags$strong("EnrichApp 2020"),
                               background = "light-blue",
                               tags$h4(
-                                  "Format allowed: a compressed RDS file containing the object
-                                  that result after running the DESeq2 main function.
-                                  Species integrated: Human and Mouse (Rat ?)."
+                                  "Formats allowed: a compressed RDS file containing the DESeq object
+                                  or a .txt, .tsv or .xlsx file containing the counting matrix plus 
+                                  the sample data information."
                               )
                           )
                       ),
