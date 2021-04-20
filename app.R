@@ -1,6 +1,7 @@
 library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
+library(shinyWidgets)
 library(shiny.router)
 library(shinyjs)
 library(networkD3)
