@@ -1,7 +1,7 @@
 library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
-library(shiny.router)
+library(shinyWidgets)
 library(shinyjs)
 library(networkD3)
 library(dplyr)
@@ -260,8 +260,8 @@ ui <- dashboardPage(
 
 # Plug router into Shiny server.
 server <- function(input, output) {
-  shinyjs::onclick("enrich", runjs("window.open('http://155.54.120.105/shiny/enrichappDark/','_blank')") )
-  shinyjs::onclick("simple", runjs("window.open('http://155.54.120.105/shiny/enrich_listable/','_blank')") )
+  shinyjs::onclick("enrich", runjs("window.open('https://shiny.imib.es/enrich_app/','_blank')") )
+  shinyjs::onclick("simple", runjs("window.open('https://shiny.imib.es/enrich_listable/','_blank')") )
   
   
   observeEvent(input$statButton, {
