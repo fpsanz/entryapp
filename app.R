@@ -2,10 +2,6 @@ library(shiny)
 library(shinydashboard)
 library(shinydashboardPlus)
 library(shinyWidgets)
-<<<<<<< HEAD
-=======
-library(shiny.router)
->>>>>>> cfd05019cbb8ad526f6199a6ad29bcecaa78359d
 library(shinyjs)
 library(networkD3)
 library(dplyr)
